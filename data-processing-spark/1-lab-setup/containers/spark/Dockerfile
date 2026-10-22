@@ -2,6 +2,7 @@ FROM apache/spark:3.5.7-scala2.12-java17-python3-ubuntu
 
 # FROM deltaio/delta-docker:latest
 # latest is at 1.0.0_3.0.0, 
+FROM deltaio/delta-docker:latest_arm64
 
 USER root
 
@@ -18,7 +19,7 @@ COPY ./tpch-dbgen ./tpch-dbgen/
 
 RUN apt-get update && \
     apt-get install -y --no-install-recommends \
-    rsync && \
+    -t bullseye rsync && \
     apt-get clean && \
     rm -rf /var/lib/apt/lists/*
 

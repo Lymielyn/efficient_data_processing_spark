@@ -60,7 +60,7 @@ services:
       UPSTREAM_DATABASE: upstreamdb
  
   minio:
-    image: 'minio/minio:latest'
+    image: 'pgsty/silo:RELEASE.2026-09-16T00-00-00Z'
     hostname: minio
     container_name: minio
     ports:
@@ -84,12 +84,12 @@ services:
       - ./data-processing-spark/1-lab-setup/containers/upstream/1-upstream-data.sql:/docker-entrypoint-initdb.d/init.sql
 
   createbuckets:
-    image: minio/mc:latest
+    image: 'pgsty/silo:RELEASE.2026-09-16T00-00-00Z'
     container_name: createbuckets
     depends_on:
       - minio
     entrypoint: >
-      /bin/sh -c " /usr/bin/mc config host add myminio http://minio:9000 minio minio123; /usr/bin/mc rm -r --force myminio/tpch; /usr/bin/mc mb myminio/tpch; /usr/bin/mc policy download myminio/tpch; /usr/bin/mc rm -r --force myminio/rainforest; /usr/bin/mc mb myminio/rainforest; /usr/bin/mc policy download myminio/rainforest; exit 0; "
+      /bin/sh -c " /usr/bin/mcli alias set myminio http://minio:9000 minio minio123; /usr/bin/mcli rm -r --force myminio/tpch; /usr/bin/mcli mb myminio/tpch; /usr/bin/mcli anonymous set download myminio/tpch; /usr/bin/mcli rm -r --force myminio/rainforest; /usr/bin/mcli mb myminio/rainforest; /usr/bin/mcli anonymous set download myminio/rainforest; exit 0; "
 
 
 volumes:

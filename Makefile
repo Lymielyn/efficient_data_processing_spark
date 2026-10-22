@@ -1,10 +1,10 @@
 ## Cluster management
 
 build:
-	docker compose build spark-master
+	docker-compose build spark-master
 
 docker-up:
-	docker compose up --build -d --scale spark-worker=2
+	docker-compose up --build -d --scale spark-worker=2
 
 up: build docker-up
 
@@ -12,7 +12,7 @@ rm-logs:
 	docker volume rm -f efficient_data_processing_spark_tpch-data efficient_data_processing_spark_spark-logs
 
 down:
-	docker compose down
+	docker-compose down
 
 restart: down rm-logs build up
 
